@@ -19,4 +19,4 @@ world: a.h world.c
 	gcc world.c -I. --shared -g -fPIC -o world.so -L. -lb
 
 load: a.h
-	gcc load.c -DUSE_NS -I. -L. -lx -ldl -g -o load
+	gcc load.c -I. -L. -lx -ldl -Wl,--export-dynamic -g -o load

@@ -10,6 +10,11 @@
 
 typedef int (*app_main_fn_t)(void);
 
+int whatever(int a)
+{
+	return printf("Whatever:%d\n", a);
+}
+
 int main(int argc, char **argv)
 {
 	void *apps[MAX_DL] = { NULL };
@@ -22,9 +27,9 @@ int main(int argc, char **argv)
 		int j;
 
 #ifdef USE_NS
-		apps[i] = dlmopen(LM_ID_NEWLM, argv[i+1], RTLD_LAZY);
+		apps[i] = dlmopen(LM_ID_NEWLM, argv[i+1], RTLD_DEEPBIND | RTLD_LAZY);
 #else
-		apps[i] = dlopen(argv[i+1], RTLD_LAZY);
+		apps[i] = dlopen(argv[i+1], RTLD_DEEPBIND | RTLD_LAZY);
 #endif
 		assert(apps[i]);
 

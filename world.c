@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "a.h"
 
+extern int whatever(int);
+
 int hello_main(void)
 {
 	printf("World!\n");
@@ -14,6 +16,7 @@ int main(void)
 	a(2);
 	b(2);
 	c(2);
+	whatever(2);
 
 	return hello_main();
 }
