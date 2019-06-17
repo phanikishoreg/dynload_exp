@@ -7,6 +7,10 @@
 
 #define MAX_DL 4
 #define MAX_FNS 4
+#define MAX_MEM 8192
+
+void *base;
+unsigned bound; //size from base
 
 typedef int (*app_main_fn_t)(void);
 
@@ -38,6 +42,12 @@ int main(int argc, char **argv)
 		appmains[(i * MAX_FNS) + 1] = (app_main_fn_t)dlsym(apps[i], "hello_main");
 		assert(appmains[(i * MAX_FNS) + 1]);
 	}
+
+	bound = 0;
+	base = malloc(MAX_MEM);
+	assert(base);
+	bound = MAX_MEM;
+	printf("base: %p bound: %u\n", base, bound);
 
 	for (i = 0; i < (argc - 1) * MAX_FNS; i++) {
 		if (!appmains[i]) continue;
