@@ -4,16 +4,27 @@
 #define MEM_SZ 8192
 
 extern int whatever(int a);
+extern void more_mem(void);
 
 extern void *base;
 extern unsigned bound;
+
+static inline void
+incr_bound(void)
+{
+	bound++;
+}
 
 static inline void
 check_bound(void)
 {
 	static int x = 'a';
 
-	if (base) { x++; bound++; }
+	if (base) { 
+		x++;
+		incr_bound();
+		if (x % 2) more_mem();
+	}
 }
 
 int hello_main(void)

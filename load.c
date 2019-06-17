@@ -14,12 +14,23 @@ unsigned bound; //size from base
 
 typedef int (*app_main_fn_t)(void);
 
-int whatever(int a)
+void
+more_mem(void)
+{
+	bound += MAX_MEM;
+	base = realloc(base, bound);
+	assert(base);
+	printf("base: %p bound: %u\n", base, bound);
+}
+
+int
+whatever(int a)
 {
 	return printf("Whatever:%d\n", a);
 }
 
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
 	void *apps[MAX_DL] = { NULL };
 	app_main_fn_t appmains[MAX_DL * MAX_FNS] = { NULL };
@@ -43,11 +54,9 @@ int main(int argc, char **argv)
 		assert(appmains[(i * MAX_FNS) + 1]);
 	}
 
-	bound = 0;
-	base = malloc(MAX_MEM);
-	assert(base);
 	bound = MAX_MEM;
-	printf("base: %p bound: %u\n", base, bound);
+	base = NULL;
+	more_mem();
 
 	for (i = 0; i < (argc - 1) * MAX_FNS; i++) {
 		if (!appmains[i]) continue;
@@ -61,6 +70,7 @@ int main(int argc, char **argv)
 	c(3);
 
 	for (i = 0; i < (argc - 1); i++) dlclose(apps[i]);
+	free(base);
 
 	return 0;
 }
