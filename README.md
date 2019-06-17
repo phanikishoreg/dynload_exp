@@ -8,7 +8,7 @@ Tested with variables `base` and `bound` and `whatever` function.
 
 1. Does the compiler optimize to use a register for frequently accessed global variables outside of the shared object with -fPIC?
 Yes, it does use a cached register and not do a PIC load on each access.
-There is an "static inline" function `check_bound()` which accesses both `base` and `bound` and increments a `static variable` and `bound`.
+There is a "static inline" function `check_bound()` which accesses both `base` and `bound` and increments a `static variable` and `bound`.
 Below is the assembly for that.
 You can see how multiple calls to `check_bound()` uses the cached `rbx` and `r14` to access the globals that are defined outside of the shared-object and in the executable (load is the name of the executable).
 ```
